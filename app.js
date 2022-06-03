@@ -8,13 +8,16 @@ const mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+// Import routes for "catalog" area of site.
+const catalogRouter = require('./routes/catalog'); 
+
 var app = express();
 
 // Set up mongoose connection
 const mongoDB =
   "mongodb+srv://abdo:abdo@cluster0.ezsi8.mongodb.net/local_library?retryWrites=true&w=majority";
 
-mongoose.connect(monogoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -31,6 +34,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/catalog', catalogRouter); // Add catalog routes to middleware chain.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
